@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import registerImg from "../images/register.svg";
 import loginImg from "../images/log.svg";
 import "./auth.css";
+import PasswordInput from "../components/inputs/passwordInput";
+import TextInput from "../components/inputs/textInput";
+import EmailInputs from "../components/inputs/emailInputs";
+import ButtonPrimary from "../components/Button/ButtonPrimary";
+import FormHeader from "../components/Typography/FormHeader";
+import PanelContent from "../components/Typography/PanelContent";
 
 const Auth = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -9,74 +15,55 @@ const Auth = () => {
     setIsSignIn(!isSignIn);
   }
   return (
-    <div class={`container ${isSignIn ? "" : "sign-up-mode"}`}>
-      <div class="forms-container">
-        <div class="signin-signup">
-          <form class="sign-in-form">
-            <h2 class="title">Sign in</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
-            </div>
-            <input type="submit" value="Login" class="btn solid" />
+    <div className={`container ${isSignIn ? "" : "sign-up-mode"}`}>
+      <div className="forms-container">
+        <div className="signin-signup">
+          <form className="sign-in-form">
+            <FormHeader
+              header="Sign In"
+              description="Login to MindWell Check"
+            />
+            <EmailInputs placeholder="Email Address" name="email" />
+
+            <PasswordInput placeholder="Enter Password" name="password" />
+
+            <ButtonPrimary text="Sign In" />
           </form>
-          <form class="sign-up-form w-full">
-            <h2 class="title">Sign up</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
-            </div>
-            <input type="submit" class="btn" value="Sign up" />
+          <form className="sign-up-form w-full ">
+            <FormHeader
+              header="Sign Up"
+              description="Create your free account"
+            />
+            <TextInput placeholder="Fullname" name="fullname" />
+            <EmailInputs placeholder="Email Address" name="email" />
+            <PasswordInput placeholder="Enter Password" name="password" />
+            <PasswordInput
+              placeholder="Confirm Password"
+              name="confirmPassword"
+            />
+            <ButtonPrimary text="Sign Up" />
           </form>
         </div>
       </div>
 
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
-            <h3>New here ?</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
-            </p>
-            <button
-              onClick={toggleForm}
-              class="btn transparent"
-              id="sign-up-btn"
-            >
-              Sign up
-            </button>
-          </div>
-          <img src={registerImg} class="image" alt="" />
+      <div className="panels-container">
+        <div className="panel left-panel">
+          <PanelContent
+            header="Come join us!"
+            description="We are so excited to have you here. If you haven't already account, create an account to get access to MindWell Check."
+            onclick={toggleForm}
+            btnText="Don't have account? Sign Up"
+          />
+          <img src={registerImg} className="image" />
         </div>
-        <div class="panel right-panel">
-          <div class="content">
-            <h3>One of us ?</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
-            </p>
-            <button
-              onClick={toggleForm}
-              class="btn transparent"
-              id="sign-in-btn"
-            >
-              Sign in
-            </button>
-          </div>
-          <img src={loginImg} class="image" alt="" />
+        <div className="panel right-panel">
+          <PanelContent
+            header="One of us ?"
+            description="We're excited to see you again. If you already have an account, please log in to continue your journey with us."
+            onclick={toggleForm}
+            btnText="Already have account? Sign In"
+          />
+          <img src={loginImg} className="image" alt="" />
         </div>
       </div>
     </div>
