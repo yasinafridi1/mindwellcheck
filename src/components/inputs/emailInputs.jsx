@@ -2,18 +2,27 @@ import React from "react";
 import InputWrapper from "../wrapper/InputWrapper";
 import ErrorText from "../Typography/ErrorText";
 
-const EmailInputs = ({ name, value, onchange, placeholder, error }) => {
+const EmailInputs = ({
+  name,
+  value,
+  onChange,
+  onBlur,
+  placeHolder,
+  error,
+  touch,
+}) => {
   return (
     <InputWrapper>
       <input
         type="email"
         name={name}
         value={value}
-        onChange={onchange}
-        placeholder={placeholder}
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeHolder}
         className="border border-[--primary] outline-none text-gray-900 sm:text-sm rounded-full focus:border-[--primary-dark] block w-full p-3"
       />
-      {error && <ErrorText text={error} />}
+      {error && touch && <ErrorText text={error} />}
     </InputWrapper>
   );
 };

@@ -1,6 +1,10 @@
 const initialState = {
-  auth: false,
-  userData: null,
+  auth: true,
+  userData: {
+    fullName: "John Doe",
+    email: "john.doe@example.com",
+    role: "user",
+  },
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -9,7 +13,7 @@ const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         auth: true,
-        userData: payload.data,
+        userData: payload.userData,
       };
     case "LOGOUT": {
       return {

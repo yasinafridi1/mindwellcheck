@@ -4,6 +4,7 @@ import PageNotFound from "../pages/NotFound";
 import Auth from "../pages/Auth";
 import { PrivateRoute } from "./PrivateRoutes";
 import { RedirectRoute } from "./RedirectRoutes";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export default createBrowserRouter([
   {
@@ -22,8 +23,9 @@ export default createBrowserRouter([
     path: "/",
     element: (
       <PrivateRoute>
-        <Home />
+        <DashboardLayout />
       </PrivateRoute>
     ),
+    children: [{ path: "/", element: <Home /> }],
   },
 ]);

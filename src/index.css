@@ -12,13 +12,15 @@
 :root{
     --primary:#237C9A;
     --primary-dark: #1b4ec6;
+    --whitesh:#f1f1f3;
+    --primary-light:#4cb1d3a6;
 }
 
 body {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
-    background-color: #F9FAFF;
+    background-color: var(--whitesh);
     display: flex;
     justify-content: center;
     align-items: center;

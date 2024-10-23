@@ -5,8 +5,8 @@ import "./inputs.css";
 const PasswordInput = ({
   name,
   value,
-  onchange,
-  placeholder,
+  onChange,
+  placeHolder,
   error,
   touch,
   onBlur,
@@ -16,13 +16,13 @@ const PasswordInput = ({
     setIsPasswordVisible((prevState) => !prevState);
   }
   return (
-    <div className={`relative w-full mb-5`}>
+    <div className={`relative w-full mb-2`}>
       <input
-        onChange={onchange}
+        onChange={onChange}
         name={name}
         value={value}
         type={isPasswordVisible ? "text" : "password"}
-        placeholder={placeholder}
+        placeholder={placeHolder}
         onBlur={onBlur}
         className=" border border-[--primary] outline-none text-gray-900 sm:text-sm rounded-full focus:border-[--primary-dark] block w-full p-3 "
       />

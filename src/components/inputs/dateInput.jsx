@@ -2,24 +2,24 @@ import React from "react";
 import InputWrapper from "../wrapper/InputWrapper";
 import ErrorText from "../Typography/ErrorText";
 
-const TextInput = ({
+const DateInput = ({
   name,
   value,
   onChange,
+  onBlur,
   placeHolder,
   error,
-  onBlur,
   touch,
 }) => {
   return (
     <InputWrapper>
       <input
-        type="text"
+        type="date"
         name={name}
         value={value}
         onChange={onChange}
-        placeholder={placeHolder}
         onBlur={onBlur}
+        placeholder={placeHolder}
         className="border border-[--primary] outline-none text-gray-900 sm:text-sm rounded-full focus:border-[--primary-dark] block w-full p-3"
       />
       {error && touch && <ErrorText text={error} />}
@@ -27,4 +27,4 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
+export default DateInput;

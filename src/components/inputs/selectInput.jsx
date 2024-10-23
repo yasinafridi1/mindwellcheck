@@ -2,29 +2,24 @@ import React from "react";
 import InputWrapper from "../wrapper/InputWrapper";
 import ErrorText from "../Typography/ErrorText";
 
-const TextInput = ({
-  name,
-  value,
-  onChange,
-  placeHolder,
-  error,
-  onBlur,
-  touch,
-}) => {
+const SelectInput = ({ name, onChange, options, value, touch, error }) => {
   return (
     <InputWrapper>
-      <input
-        type="text"
+      <select
         name={name}
-        value={value}
         onChange={onChange}
-        placeholder={placeHolder}
-        onBlur={onBlur}
+        value={value}
         className="border border-[--primary] outline-none text-gray-900 sm:text-sm rounded-full focus:border-[--primary-dark] block w-full p-3"
-      />
+      >
+        {options.map((item, index) => (
+          <option key={index} value={item.value} disabled={item.disabled}>
+            {item.label}
+          </option>
+        ))}
+      </select>
       {error && touch && <ErrorText text={error} />}
     </InputWrapper>
   );
 };
 
-export default TextInput;
+export default SelectInput;
