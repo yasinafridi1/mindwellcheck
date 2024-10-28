@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { dashboardNavItems } from "../../data/sidebardata";
 import { TbLogout2 } from "react-icons/tb";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [active, setActive] = useState(0);
-  function handleLogout() {}
+  function handleLogout() {
+    dispatch(logout()).then(() => {
+      console.log("User logged out");
+    });
+  }
   return (
     <>
       <div className="w-[70px] h-screen bg-[--primary] transition-all ease-in-out duration-300 fixed top-0 left-0 overflow-y-auto  sm:w-[80px] md:border-none md:w-[95px] xl:w-[18%] text-[--whitesh]">

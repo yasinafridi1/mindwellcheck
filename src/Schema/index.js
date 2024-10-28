@@ -55,3 +55,12 @@ export const signUpSchema = Yup.object({
       return value <= tenYearsAgo;
     }),
 });
+
+export const socialMediaAddictionSchema = Yup.object({
+  spendingTime: stringValidation(),
+  useSocialMedia: stringValidation(),
+  personalProblem: stringValidation(),
+  socialSuccess: stringValidation(),
+  trouble: stringValidation(),
+  impaction: stringValidation(),
+});

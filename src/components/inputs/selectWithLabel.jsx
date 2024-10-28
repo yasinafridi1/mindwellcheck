@@ -2,37 +2,35 @@ import React from "react";
 import InputWrapper from "../wrapper/InputWrapper";
 import ErrorText from "../Typography/ErrorText";
 
-const DateInput = ({
+const SelectWithLabel = ({
+  label,
   name,
-  value,
   onChange,
-  onBlur,
-  placeHolder,
-  error,
+  options,
+  value,
   touch,
+  error,
+  onBlur,
 }) => {
-  const today = new Date();
-  const tenYearsAgo = new Date(
-    today.getFullYear() - 10,
-    today.getMonth(),
-    today.getDate()
-  );
-  const maxDate = tenYearsAgo.toISOString().split("T")[0];
   return (
     <InputWrapper>
-      <input
-        type="date"
+      <label className="mt-3 mb-1 ml-2 text-gray-600 text-sm">{label}</label>
+      <select
         name={name}
-        value={value}
         onChange={onChange}
+        value={value}
         onBlur={onBlur}
-        placeholder={placeHolder}
-        max={maxDate}
         className="border border-[--primary] outline-none text-gray-900 sm:text-sm rounded-full focus:border-[--primary-dark] block w-full p-3"
-      />
+      >
+        {options.map((item, index) => (
+          <option key={index} value={item.value} disabled={item.disabled}>
+            {item.label}
+          </option>
+        ))}
+      </select>
       {error && touch && <ErrorText text={error} />}
     </InputWrapper>
   );
 };
 
-export default DateInput;
+export default SelectWithLabel;

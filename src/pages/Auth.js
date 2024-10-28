@@ -19,7 +19,7 @@ import { errorToast, successToast } from "../Utils/Toast";
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
   const [loading, setLoading] = useState(false);
   const loginInitialState = {
     email: "",

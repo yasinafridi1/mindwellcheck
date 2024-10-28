@@ -42,7 +42,7 @@ api.interceptors.response.use(
         const refresh_token = localStorage.getItem("us_refresh");
         if (refresh_token) {
           const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/refreshToken`,
+            `${process.env.REACT_APP_API_URL}/auth/refreshToken`,
             { refreshToken: JSON.parse(refresh_token) }
           );
           setToken(response.data); // Update tokens in local storage

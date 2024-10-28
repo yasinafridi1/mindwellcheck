@@ -3,39 +3,177 @@ import Card from "../components/Cards/Card";
 import Question from "../components/Typography/question";
 import Paragraph from "../components/Typography/Paragraph";
 import { effectsOfSocialMedia } from "../data/factors";
-import Modal from "../components/Modal/Modal";
 import SocialMediaModal from "../components/Modal/SocialMediaModal";
+import ButtonPrimary from "../components/Button/ButtonPrimary";
+import { useSelector } from "react-redux";
+import TextModal from "../components/Modal/TextModal";
+import { MdTipsAndUpdates } from "react-icons/md";
+import FlexBox from "../components/wrapper/FlexBox";
+import MessageHeader from "../components/Typography/MessageHeader";
+import IconModal from "../components/Modal/IconModal";
+import {
+  highRiskSMAData,
+  lowRiskSMAData,
+  moderateRiskSMAData,
+} from "../data/textMessages";
+import { RiCalendarScheduleFill } from "react-icons/ri";
 
 const Home = () => {
+  const dashboardData = useSelector((state) => state.dashboard.data);
   const [open, setOpen] = useState(true);
-  function handleModal() {
-    setOpen(!open);
+  const [textModal, setTextModal] = useState(false);
+  const [messageModal, setMessageModal] = useState(false);
+  const [tipsModal, setTipsModal] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+  const [otherFactorsModal, setOtherFactorsModal] = useState({
+    status: false,
+    data: [],
+  });
+
+  const [lastStep, setLastStep] = useState(false);
+  function openSMAModal() {
+    if (dashboardData.canSubmitNewSurvey) {
+      setOpen(true);
+    } else {
+      setTextModal(!textModal);
+    }
   }
+
+  function closeSMAModal(data) {
+    if (data?.lastServeyFactor) {
+      if (data.lastServeyFactor <= 11) {
+        setModalContent(() => {
+          return lowRiskSMAData(closeTipModal);
+        });
+      } else if (data.lastServeyFactor > 11 && data.lastServeyFactor <= 17) {
+        setModalContent(() => {
+          return moderateRiskSMAData(openAdditionalServeyFactors);
+        });
+      } else {
+        setModalContent(() => {
+          return highRiskSMAData(openAdditionalServeyFactors);
+        });
+      }
+      setMessageModal(true);
+    }
+    setOpen(false);
+  }
+
+  function closeMessageModal() {
+    setMessageModal(false);
+    setTipsModal(true);
+  }
+
+  function closeTipModal() {
+    setTipsModal(false);
+  }
+
+  function openAdditionalServeyFactors() {
+    closeTipModal();
+    setOtherFactorsModal({
+      status: true,
+      data: [],
+    });
+  }
+
   return (
     <>
-      {open && <SocialMediaModal open={open} onClick={handleModal} />}
+      {open && <SocialMediaModal open={open} onClick={closeSMAModal} />}
+      {textModal && (
+        <TextModal
+          onClose={() => {
+            setTextModal(false);
+          }}
+          open={textModal}
+        />
+      )}
+      {messageModal && (
+        <IconModal open={messageModal} icon={modalContent?.icon}>
+          <FlexBox>
+            {modalContent?.data.map((item, index) => (
+              <MessageHeader
+                key={index}
+                header={item?.header}
+                description={item?.description}
+              />
+            ))}
+          </FlexBox>
+          <div className="w-full flex justify-end items-start mt-4">
+            <ButtonPrimary onclick={closeMessageModal} text="Next" />
+          </div>
+        </IconModal>
+      )}
+
+      {tipsModal && (
+        <IconModal open={tipsModal} icon={<MdTipsAndUpdates />}>
+          <FlexBox>
+            <MessageHeader header="Tips to Stay Balanced" />
+            {modalContent?.tips?.map((item, index) => (
+              <MessageHeader key={index} description={item} />
+            ))}
+          </FlexBox>
+          <div className="w-full flex justify-end items-start mt-4">
+            {modalContent?.buttons.map((item, index) => (
+              <ButtonPrimary
+                key={index}
+                onclick={item.onClick}
+                text={item.text}
+              />
+            ))}
+          </div>
+        </IconModal>
+      )}
+
+      {otherFactorsModal.status && (
+        <IconModal
+          open={otherFactorsModal.status}
+          icon={<RiCalendarScheduleFill />}
+        >
+          <FlexBox>
+            <MessageHeader header={"One Last Step!"} />
+          </FlexBox>
+          <FlexBox customClassses={"!items-start"}>
+            <h1 className="text-base mt-2">
+              Base on your social media addiction factor, we have suggested you
+              to take below servey. Do you want to take the servey ?
+            </h1>
+          </FlexBox>
+          <div className="w-full flex justify-end items-start mt-4">
+            <ButtonPrimary
+              onclick={() => {
+                setOtherFactorsModal({ status: false, data: [] });
+              }}
+              text="Close"
+            />
+          </div>
+        </IconModal>
+      )}
+
       <section className="!overflow-auto">
         <h1 className="poppin-700 text-xl text-gray-700">Dashboard</h1>
         <div className="flex w-full justify-start items-start gap-8 flex-wrap mt-4 pr-4">
           <Card
             header="Total Servey"
-            value="8"
+            value={dashboardData?.totalServey}
             customClass={"bg-emerald-800"}
           />
           <Card
             header="Latest Addiction Factor"
-            value="8"
+            value={dashboardData?.lastServeyFactor}
             customClass={"bg-yellow-800"}
           />
-          <Card
+          {/* <Card
             header="Average Addiction Factor"
-            value="8"
+            value={dashboardData?.averageResultFactor}
             customClass={"bg-pink-900"}
-          />
+          /> */}
         </div>
-        <div className="mt-6">
-          <button className="poppin-600 text-lg text-[--primary-dark] hover:text-[--primary]">
-            Want to check your social media addiction?{" "}
+        <div className="mt-6 flex justify-center items-center mr-5">
+          <button
+            onClick={openSMAModal}
+            className="w-full px-16 bg-[--primary] rounded-md py-3 text-white poppin-600 text-xl border-2 border-[--primary] hover:bg-white hover:text-[--primary] duration-500 transition-all ease-in-out"
+          >
+            Want to check your social media addiction?
           </button>
         </div>
         <div className="mt-4 bg-white p-8 mr-5">
@@ -66,6 +204,14 @@ const Home = () => {
               );
             })}
           </ul>
+
+          <div className="w-full flex justify-end items-start">
+            <ButtonPrimary
+              type="button"
+              onclick={openSMAModal}
+              text="Check SMA"
+            />
+          </div>
         </div>
       </section>
     </>

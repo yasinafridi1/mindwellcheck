@@ -1,10 +1,6 @@
 const initialState = {
-  auth: true,
-  userData: {
-    fullName: "John Doe",
-    email: "john.doe@example.com",
-    role: "user",
-  },
+  auth: false,
+  userData: {},
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
