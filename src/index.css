@@ -7,18 +7,59 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 :root{
     --primary:#237C9A;
+    --primary-dark: #1b4ec6;
+    --whitesh:#f1f1f3;
+    --primary-light:#4cb1d3a6;
 }
 
 body {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
-    background-color: #F9FAFF;
+    background-color: var(--whitesh);
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 400;
+}
+
+.poppin-500{
+    font-weight: 500;
+}
+.poppin-600 {
+    font-weight: 600;
+}
+.poppin-700 {
+    font-weight: 700;
+}
+.poppin-800 {
+    font-weight: 800;
+}
+
+.icon {
+    animation: rotate 1s linear ;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-10deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+    75%{
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }

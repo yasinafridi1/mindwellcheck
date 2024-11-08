@@ -1,6 +1,6 @@
 const initialState = {
   auth: false,
-  userData: null,
+  userData: {},
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -9,7 +9,7 @@ const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         auth: true,
-        userData: payload.data,
+        userData: payload.userData,
       };
     case "LOGOUT": {
       return {
