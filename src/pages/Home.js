@@ -12,25 +12,31 @@ import FlexBox from "../components/wrapper/FlexBox";
 import MessageHeader from "../components/Typography/MessageHeader";
 import IconModal from "../components/Modal/IconModal";
 import {
+  getData,
   highRiskSMAData,
   lowRiskSMAData,
   moderateRiskSMAData,
 } from "../data/textMessages";
 import { RiCalendarScheduleFill } from "react-icons/ri";
+import OtherServeyModal from "../components/Modal/OtherServeyModal";
+
+let additionalServey = [];
+let Once = true;
 
 const Home = () => {
   const dashboardData = useSelector((state) => state.dashboard.data);
-  const [open, setOpen] = useState(true);
+  // const otherServeyData = useSelector((state) => state.otherServey.data);
+  const [modalContent, setModalContent] = useState(null);
+  const [open, setOpen] = useState(false);
   const [textModal, setTextModal] = useState(false);
   const [messageModal, setMessageModal] = useState(false);
   const [tipsModal, setTipsModal] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  const [otherFactorsModal, setOtherFactorsModal] = useState({
+  const [otherFactorsModal, setOtherFactorsModal] = useState(false);
+  const [selectedServey, setSelectedServey] = useState({
     status: false,
-    data: [],
+    data: null,
   });
 
-  const [lastStep, setLastStep] = useState(false);
   function openSMAModal() {
     if (dashboardData.canSubmitNewSurvey) {
       setOpen(true);
@@ -60,6 +66,10 @@ const Home = () => {
   }
 
   function closeMessageModal() {
+    if (Once) {
+      additionalServey = modalContent?.additionalServey;
+      Once = false;
+    }
     setMessageModal(false);
     setTipsModal(true);
   }
@@ -70,10 +80,30 @@ const Home = () => {
 
   function openAdditionalServeyFactors() {
     closeTipModal();
-    setOtherFactorsModal({
-      status: true,
-      data: [],
-    });
+    setOtherFactorsModal(true);
+  }
+
+  function closeOtherServeyModal(data) {
+    if (data?.serveyName) {
+      additionalServey = additionalServey.filter(
+        (item) => item.name !== data.serveyName
+      );
+      if (additionalServey.length) {
+        setModalContent(() =>
+          getData(
+            openAdditionalServeyFactors,
+            data?.serveyName,
+            data?.serveyFactor
+          )
+        );
+      } else {
+        setModalContent(() =>
+          getData(closeTipModal, data?.serveyName, data?.serveyFactor)
+        );
+      }
+      setMessageModal(true);
+    }
+    setSelectedServey({ status: false, data: null });
   }
 
   return (
@@ -124,11 +154,8 @@ const Home = () => {
         </IconModal>
       )}
 
-      {otherFactorsModal.status && (
-        <IconModal
-          open={otherFactorsModal.status}
-          icon={<RiCalendarScheduleFill />}
-        >
+      {otherFactorsModal && (
+        <IconModal open={otherFactorsModal} icon={<RiCalendarScheduleFill />}>
           <FlexBox>
             <MessageHeader header={"One Last Step!"} />
           </FlexBox>
@@ -138,10 +165,27 @@ const Home = () => {
               to take below servey. Do you want to take the servey ?
             </h1>
           </FlexBox>
+          <FlexBox customClassses={"!items-start !justify-start !mt-5"}>
+            {additionalServey?.map((factor, index) => (
+              <button
+                onClick={() => {
+                  setOtherFactorsModal(false);
+                  setSelectedServey({
+                    status: true,
+                    data: factor,
+                  });
+                }}
+                className="pl-4 py-2 text-base text-[--primary] poppin-500 w-full hover:bg-blue-50 text-left"
+                key={index}
+              >
+                {factor?.label}
+              </button>
+            ))}
+          </FlexBox>
           <div className="w-full flex justify-end items-start mt-4">
             <ButtonPrimary
               onclick={() => {
-                setOtherFactorsModal({ status: false, data: [] });
+                setOtherFactorsModal(false);
               }}
               text="Close"
             />
@@ -149,6 +193,14 @@ const Home = () => {
         </IconModal>
       )}
 
+      {selectedServey.status && (
+        <OtherServeyModal
+          open={selectedServey.status}
+          headerText={selectedServey?.data?.label}
+          serveyType={selectedServey?.data?.name}
+          onClose={closeOtherServeyModal}
+        />
+      )}
       <section className="!overflow-auto">
         <h1 className="poppin-700 text-xl text-gray-700">Dashboard</h1>
         <div className="flex w-full justify-start items-start gap-8 flex-wrap mt-4 pr-4">
@@ -162,11 +214,46 @@ const Home = () => {
             value={dashboardData?.lastServeyFactor}
             customClass={"bg-yellow-800"}
           />
-          {/* <Card
-            header="Average Addiction Factor"
-            value={dashboardData?.averageResultFactor}
-            customClass={"bg-pink-900"}
-          /> */}
+          {/* {otherServeyData?.length &&
+            otherServeyData?.map((item, index) => {
+              return item.name === "loneLiness" ? (
+                <Card
+                  header="Loneliness Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              ) : item.name === "mentalFatigue" ? (
+                <Card
+                  header="Mental Fatigue Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              ) : item.name === "depression" ? (
+                <Card
+                  header="Depression Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              ) : item.name === "anxiety" ? (
+                <Card
+                  header="Anxiety Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              ) : item.name === "lifeSatisfaction" ? (
+                <Card
+                  header="Life Satisfaction Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              ) : (
+                <Card
+                  header="Life Esteem Factor"
+                  value={item?.serveyFactor}
+                  customClass={"bg-cyan-800"}
+                />
+              );
+            })} */}
         </div>
         <div className="mt-6 flex justify-center items-center mr-5">
           <button

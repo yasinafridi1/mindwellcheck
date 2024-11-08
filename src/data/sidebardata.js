@@ -7,9 +7,9 @@ export const dashboardNavItems = [
     url: "/",
     icon: <MdOutlineDashboard />,
   },
-  {
-    label: "Profile",
-    url: "/profile",
-    icon: <FiUser />,
-  },
+  // {
+  //   label: "Profile",
+  //   url: "/profile",
+  //   icon: <FiUser />,
+  // },
 ];

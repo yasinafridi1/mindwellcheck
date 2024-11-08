@@ -27,17 +27,22 @@ export const signIn = (payload) => async (dispatch) => {
 
 export const submitAddictionServey = (payload) => async (dispatch) => {
   try {
-    // const response = await api.post("/servey", payload);
-    const data = {
-      dashboardData: {
-        lastServeyFactor: 23,
-        canSubmitNewSurvey: true,
-        averageResultFactor: 10,
-        totalServey: 6,
-      },
-    };
-    dispatch({ type: "DASHBOARD_DATA", payload: data });
-    return data;
+    const response = await api.post("/servey", payload);
+    dispatch({ type: "DASHBOARD_DATA", payload: response.data });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const otherServeyData = (payload, serveyName) => async (dispatch) => {
+  try {
+    const response = await api.post(
+      `/servey/other?surveyName=${serveyName}`,
+      payload
+    );
+    dispatch({ type: "ADD_NEW_SERVEY_DATA", payload: response?.data });
+    return { serveyName, serveyFactor: response?.data?.data?.serveyFactor };
   } catch (error) {
     throw error;
   }
