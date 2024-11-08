@@ -65,7 +65,7 @@ export const checkLogin = () => async (dispatch) => {
   try {
     if (refreshToken) {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/refreshToken`,
+        `https://mindwellcheck-okxyujzn.b4a.run/api/v1/auth/refreshToken`,
         {
           refreshToken: JSON.parse(refreshToken),
         }

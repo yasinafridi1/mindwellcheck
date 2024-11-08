@@ -3,7 +3,7 @@ import { setToken } from "../../Utils/tokenutils";
 import store from "../store";
 // Create a new instance of axios
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://mindwellcheck-okxyujzn.b4a.run/api/v1",
   withCredentials: true,
   headers: {
     "Content-type": "application/json",
@@ -42,7 +42,7 @@ api.interceptors.response.use(
         const refresh_token = localStorage.getItem("us_refresh");
         if (refresh_token) {
           const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/auth/refreshToken`,
+            `https://mindwellcheck-okxyujzn.b4a.run/api/v1/auth/refreshToken`,
             { refreshToken: JSON.parse(refresh_token) }
           );
           setToken(response.data); // Update tokens in local storage
