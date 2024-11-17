@@ -12,12 +12,12 @@ const SocialMediaModal = ({ onClick, open }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const initialState = {
-    spendingTime: "3",
-    useSocialMedia: "2",
-    personalProblem: "1",
-    socialSuccess: "5",
-    trouble: "4",
-    impaction: "3",
+    spendingTime: "",
+    useSocialMedia: "",
+    personalProblem: "",
+    socialSuccess: "",
+    trouble: "",
+    impaction: "",
   };
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
