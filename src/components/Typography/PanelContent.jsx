@@ -8,7 +8,7 @@ const PanelContent = ({ header, description, btnText, onclick, disabled }) => {
       <button
         onClick={onclick}
         disabled={disabled}
-        className={`px-16 text-white py-2 rounded-full bg-[--primary-dark] border border-[--primary-dark] ${
+        className={`text-xs sm:text-sm md:text-base px-16 text-white py-2 rounded-full bg-[--primary-dark] border border-[--primary-dark] ${
           disabled ? "cursor-not-allowed" : "cursor-pointer"
         }`}
       >
