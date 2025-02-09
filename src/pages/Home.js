@@ -258,7 +258,7 @@ const Home = () => {
         <div className="mt-6 flex justify-center items-center mr-5">
           <button
             onClick={openSMAModal}
-            className="w-full px-16 bg-[--primary] rounded-md py-3 text-white poppin-600 text-xl border-2 border-[--primary] hover:bg-white hover:text-[--primary] duration-500 transition-all ease-in-out"
+            className="w-full px-16 bg-[--primary] rounded-md py-3 text-white poppin-600 text-xs md:text-xl border-2 border-[--primary] hover:bg-white hover:text-[--primary] duration-500 transition-all ease-in-out"
           >
             Want to check your social media addiction?
           </button>

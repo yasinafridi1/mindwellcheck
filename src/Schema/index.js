@@ -18,10 +18,7 @@ const getCharacterValidationError = (str) => {
 export const passwordSchema = Yup.object({
   password: stringValidation("Password is required")
     .min(6, minLengthError("Password", 6))
-    .max(12, maxLengthError("Password", 12))
-    .matches(/[0-9]/, getCharacterValidationError("digit"))
-    .matches(/[a-z]/, getCharacterValidationError("lowercase character"))
-    .matches(/[A-Z]/, getCharacterValidationError("uppercase character")),
+    .max(12, maxLengthError("Password", 12)),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords not matched")
     .required("Confirm password is required"),
